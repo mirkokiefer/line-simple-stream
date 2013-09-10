@@ -3,7 +3,7 @@
 
 [![NPM](https://nodei.co/npm/line-simple-stream.png)](https://nodei.co/npm/line-simple-stream/)
 
-Transform a string [simple-stream](https://github.com/creationix/js-git/blob/master/specs/simple-stream.md) into a line stream.
+Transform a character [simple-stream](https://github.com/creationix/js-git/blob/master/specs/simple-stream.md) into a line stream.
 
 ``` js
 var createLineStream = require('line-simple-stream')
