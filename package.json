@@ -1,8 +1,9 @@
 {
   "name": "line-simple-stream",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A simple-stream for lines of a string stream",
-  "main": "lib/index.js",
+  "homepage": "https://github.com/mirkokiefer/line-simple-stream",
+  "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha"
   },
