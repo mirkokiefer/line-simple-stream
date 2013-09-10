@@ -1,8 +1,8 @@
 
 var assert = require('assert')
 var fs = require('fs')
-var createLineIterator = require('../lib/index')
-var iterators = require('async-iterators')
+var createLineIterator = require('./index')
+var streamUtils = require('simple-stream')
 var async = require('async')
 
 var testData = []
@@ -28,10 +28,10 @@ describe('line-stream', function() {
     fs.unlink(testFile, done)
   })
   it('should read from a character stream and transform to a line stream', function(done) {
-    var fileStream = fs.createReadStream(testFile, {encoding: 'utf8'})
-    var fileIterator = iterators.fromReadableStream(fileStream)
-    var lineIterator = createLineIterator(fileIterator)
-    iterators.toArray(lineIterator, function(err, res) {
+    var fsStream = fs.createReadStream(testFile, {encoding: 'utf8'})
+    var fileStream = streamUtils.fromReadableStream(fsStream)
+    var lineStream = createLineIterator(fileStream)
+    streamUtils.toArray(lineStream)(function(err, res) {
       assert.equal(res.length, 10001)
       var expectedRes = testData.concat([''])
       assert.deepEqual(res, expectedRes)

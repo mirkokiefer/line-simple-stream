@@ -1,26 +1,27 @@
 
 var EventEmitter = require('events').EventEmitter
 
-var createLineIterator = function(fileIterator) {
+var createLineStream = function(stringStream) {
   var currentBuffer = ''
   var buffers = []
   var hasEnded = false
   var lineEvents = new EventEmitter()
+  return {read: read, abort: stringStream.abort}
 
-  var next = function(cb) {
+  function read(cb) {
     if (buffers.length) {
       cb(null, buffers.shift())
     } else if (hasEnded) {
       cb(null, undefined)
     } else {
       lineEvents.once('line_finished', function() {
-        next(cb)
+        read(cb)
       })
-      iterate()
+      readNext()
     }
   }
 
-  var appendToBuffer = function(data) {
+  function appendToBuffer(data) {
     var newLineIndex = data.indexOf('\n')
     var line = newLineIndex > -1 ? data.slice(0, newLineIndex) : data
     currentBuffer += line
@@ -35,23 +36,21 @@ var createLineIterator = function(fileIterator) {
     }
   }
 
-  var iterate = function() {
-    fileIterator.next(function(err, data) {
+  function readNext() {
+    stringStream.read(function(err, data) {
       if (data === undefined) {
         appendToBuffer('\n')
         hasEnded = true
         lineEvents.emit('line_finished')
       } else {
         if (appendToBuffer(data)) {
-          iterate()
+          readNext()
         } else {
           lineEvents.emit('line_finished')
         }
       }
     })
   }
-
-  return {next: next}
 }
 
-module.exports = createLineIterator
+module.exports = createLineStream

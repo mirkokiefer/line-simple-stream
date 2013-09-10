@@ -1,7 +1,7 @@
 {
-  "name": "line-iterator",
+  "name": "line-simple-stream",
   "version": "0.0.3",
-  "description": "",
+  "description": "A simple-stream for lines of a string stream",
   "main": "lib/index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha"
@@ -9,8 +9,11 @@
   "author": "Mirko Kiefer <mail@mirkokiefer.com>",
   "license": "BSD",
   "devDependencies": {
-    "async-iterators": "~0.2.2",
     "async": "~0.2.9",
     "mocha": "~1.12.0"
-  }
+  },
+  "dependencies": {
+    "simple-stream": "~0.3.1"
+  },
+  "keywords": ["simple-stream"]
 }

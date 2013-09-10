@@ -1,27 +1,25 @@
-#line-iterator
-[![Build Status](https://travis-ci.org/mirkokiefer/line-iterator.png?branch=master)](https://travis-ci.org/mirkokiefer/line-iterator)
+#line-simple-stream
+[![Build Status](https://travis-ci.org/mirkokiefer/line-simple-stream.png?branch=master)](https://travis-ci.org/mirkokiefer/line-simple-stream)
 
-[![NPM](https://nodei.co/npm/line-iterator.png)](https://nodei.co/npm/line-iterator/)
+[![NPM](https://nodei.co/npm/line-simple-stream.png)](https://nodei.co/npm/line-simple-stream/)
 
-Iterate over streams (actually iterators) by line.
-
-To iterate over lines of a stream you need to wrap it in an iterator using [stream-iterator](https://github.com/mirkokiefer/stream-iterator).
+Transform a string [simple-stream](https://github.com/creationix/js-git/blob/master/specs/simple-stream.md) into a line stream.
 
 ``` js
-var createLineIterator = require('line-iterator')
-var iterators = require('async-iterators')
+var createLineStream = require('line-simple-stream')
+var streamUtils = require('simple-stream')
 
-var fileStream = fs.createReadStream('your_file.txt', {encoding: 'utf8'})
+var fsStream = fs.createReadStream('your_file.txt', {encoding: 'utf8'})
 
-// wrap the file stream in an iterator
-var fileIterator = iterators.fromReadableStream(fileStream)
+// wrap the file stream in a simple-stream
+var fileSimpleStream = streamUtils.fromReadableStream(fileStream)
 
-// transform the file iterator into a line iterator
+// transform the file stream into a line stream
 var lineIterator = createLineIterator(fileIterator)
 
-// call next() repeatedly to iterate over lines
-lineIterator.next(function(err, line) {
-  // first line
+// print the file
+streamUtils.forEach(lineIterator, console.log)(function() {
+  console.log('done')
 })
 ```
 
